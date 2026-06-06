@@ -25,7 +25,7 @@ This project intentionally starts in paper mode. It records and validates signal
 
 ```bash
 cd /Users/regalia/futures-algo-bridge
-npm start
+npm run local
 ```
 
 Open:
