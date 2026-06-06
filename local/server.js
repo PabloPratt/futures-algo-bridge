@@ -1,9 +1,9 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
-import { buildTradingViewPayload, loadConfig, publicConfig, saveConfig } from "./config.js";
-import { normalizeSignal, routeSignal, validateSignal, verifySecret } from "./router.js";
-import { buildSetupChecklist } from "./setup-checker.js";
+import { buildTradingViewPayload, loadConfig, publicConfig, saveConfig } from "../src/config.js";
+import { normalizeSignal, routeSignal, validateSignal, verifySecret } from "../src/router.js";
+import { buildSetupChecklist } from "../src/setup-checker.js";
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = Number(process.env.PORT || 8787);

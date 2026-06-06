@@ -5,9 +5,9 @@
   "description": "Local setup wizard and webhook bridge for TradingView futures automation.",
   "type": "module",
   "scripts": {
-    "local": "node src/server.js",
+    "local": "node local/server.js",
     "build": "node --check public/app.js && node --check api/webhook/tradingview.js",
-    "check": "node --check src/server.js && node --check src/config.js && node --check src/router.js"
+    "check": "node --check local/server.js && node --check src/config.js && node --check src/router.js"
   },
   "engines": {
     "node": ">=20"
