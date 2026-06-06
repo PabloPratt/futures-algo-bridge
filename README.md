@@ -1,8 +1,8 @@
-# Futures Algo Bridge
+# Bifrost Prop Bridge
 
-Local setup wizard and webhook bridge for connecting TradingView alerts to a futures algo workflow.
+Setup checker for connecting TradingView Paradox alerts, PickMyTrade, Apex/Tradovate prop accounts, and optional paper observation.
 
-This project intentionally starts in paper mode. It records and validates signals, can forward approved signals to a friend algo webhook, and leaves direct broker execution behind explicit adapter work for the broker/prop platform you choose.
+This project intentionally starts in paper mode. It validates setup steps, can receive observe-only webhook tests, and leaves direct broker execution behind explicit adapter work for the broker/prop platform you choose.
 
 ## What It Does
 

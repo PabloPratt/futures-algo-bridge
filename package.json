@@ -2,7 +2,7 @@
   "name": "futures-algo-bridge",
   "version": "0.1.0",
   "private": true,
-  "description": "Local setup wizard and webhook bridge for TradingView futures automation.",
+  "description": "Setup checker for TradingView, PickMyTrade, Apex, and Tradovate prop firm workflows.",
   "type": "module",
   "scripts": {
     "local": "node local/server.js",

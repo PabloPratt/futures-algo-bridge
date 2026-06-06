@@ -63,7 +63,7 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Futures Algo Bridge running at http://${HOST}:${PORT}`);
+  console.log(`Bifrost Prop Bridge running at http://${HOST}:${PORT}`);
 });
 
 async function readJson(request) {
