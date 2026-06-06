@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Futures Algo Bridge</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">TradingView webhook bridge</p>
+          <h1>Futures Algo Bridge</h1>
+          <p class="lede">Check the TradingView, PickMyTrade, Apex, and Tradovate setup before you wait for the next Paradox alert. Live execution stays locked unless you explicitly enable it.</p>
+        </div>
+        <div class="status">
+          <span id="modePill">Paper mode</span>
+          <strong id="enabledLabel">Execution disabled</strong>
+        </div>
+      </section>
+
+      <section class="grid">
+        <form id="configForm" class="panel">
+          <h2>Setup</h2>
+          <label>
+            Broker or prop platform
+            <select name="provider">
+              <option value="manual">Manual / not connected</option>
+              <option value="tradovate">Tradovate-compatible</option>
+              <option value="rithmic">Rithmic-compatible</option>
+              <option value="ninjatrader">NinjaTrader-compatible</option>
+              <option value="other">Other futures platform</option>
+            </select>
+          </label>
+          <label>
+            Account label
+            <input name="accountLabel" placeholder="Apex eval 1 / Topstep sim / paper">
+          </label>
+          <div class="row">
+            <label>
+              Apex phase
+              <select name="apexAccountPhase">
+                <option value="eval">Eval</option>
+                <option value="pa-funded">PA / funded</option>
+                <option value="personal-live">Personal live</option>
+              </select>
+            </label>
+            <label>
+              Account size
+              <input name="apexAccountSize" placeholder="25k / 50k / 150k">
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              Profit target
+              <input name="apexProfitTarget" placeholder="$1,500">
+            </label>
+            <label>
+              Drawdown
+              <input name="apexDrawdown" placeholder="$1,500">
+            </label>
+          </div>
+          <label>
+            Friend algo webhook URL
+            <input name="algoWebhookUrl" placeholder="https://example.com/webhook">
+          </label>
+          <label>
+            Bridge webhook secret
+            <input name="webhookSecret" placeholder="Use a long random value">
+          </label>
+          <label>
+            Algo shared secret
+            <input name="algoSharedSecret" placeholder="Optional">
+          </label>
+          <div class="row">
+            <label>
+              Max contracts
+              <input name="maxContractsPerOrder" type="number" min="1" max="100" value="1">
+            </label>
+            <label>
+              Daily loss limit
+              <input name="dailyLossLimitDollars" type="number" min="1" value="250">
+            </label>
+          </div>
+          <label>
+            Allowed symbols
+            <input name="allowedSymbols" placeholder="MES,MNQ,MGC">
+          </label>
+          <div class="switches">
+            <label class="check">
+              <input name="apexAutomationAllowed" type="checkbox">
+              Apex automation rule checked
+            </label>
+            <label class="check">
+              <input name="apexCopyTradingAllowed" type="checkbox">
+              Apex copy-trading rule checked
+            </label>
+            <label class="check">
+              <input name="tradingEnabled" type="checkbox">
+              Enable live routing
+            </label>
+            <label class="check">
+              <input name="requireApproval" type="checkbox" checked>
+              Require manual approval
+            </label>
+          </div>
+          <button type="submit">Save setup</button>
+        </form>
+
+        <section class="panel">
+          <h2>Setup Checker</h2>
+          <div class="score">
+            <strong id="checkScore">0 / 7 ready</strong>
+            <span id="nextAction">Save what you have checked.</span>
+          </div>
+          <div id="checklist" class="checklist"></div>
+        </section>
+
+        <form id="verificationForm" class="panel wide">
+          <h2>What You Verified</h2>
+          <div class="verification-grid">
+            <label class="check">
+              <input name="paradoxConditionVisible" type="checkbox">
+              Paradox appears in TradingView alert condition
+            </label>
+            <label class="check">
+              <input name="tradingViewWebhookFieldVisible" type="checkbox">
+              TradingView shows Webhook URL field
+            </label>
+            <label class="check">
+              <input name="tradingViewAlertActive" type="checkbox">
+              Paradox alert is active
+            </label>
+            <label class="check">
+              <input name="tradingViewAlertMessageConfigured" type="checkbox">
+              PickMyTrade message/template is pasted
+            </label>
+            <label class="check">
+              <input name="pickMyTradeWebhookSaved" type="checkbox">
+              PickMyTrade webhook is saved in TradingView
+            </label>
+            <label class="check">
+              <input name="pickMyTradeConnectedChecked" type="checkbox">
+              PickMyTrade Connected Accounts checked
+            </label>
+            <label class="check">
+              <input name="pickMyTradeNumericIdConfirmed" type="checkbox">
+              Account ID is number-only
+            </label>
+            <label class="check">
+              <input name="pickMyTradeLogsClean" type="checkbox">
+              PickMyTrade alert logs are clean
+            </label>
+          </div>
+          <label>
+            Last PickMyTrade log status
+            <input name="pickMyTradeLastLogStatus" placeholder="accepted / wrong account id / no log yet">
+          </label>
+          <button type="submit">Save verification</button>
+        </form>
+
+        <section class="panel">
+          <h2>TradingView Alert</h2>
+          <p class="note">Webhook URL for your TradingView alert:</p>
+          <pre id="webhookUrl"></pre>
+          <p class="note">Alert message JSON:</p>
+          <pre id="payload"></pre>
+          <button id="copyPayload" type="button">Copy alert JSON</button>
+        </section>
+
+        <section class="panel wide">
+          <h2>Test Signal</h2>
+          <div class="test-grid">
+            <select id="testAction">
+              <option value="buy">Buy</option>
+              <option value="sell">Sell</option>
+              <option value="flat">Flatten</option>
+            </select>
+            <input id="testSymbol" value="MES" aria-label="Test symbol">
+            <input id="testQuantity" type="number" min="1" value="1" aria-label="Test quantity">
+            <button id="sendTest" type="button">Send test</button>
+          </div>
+          <pre id="result"></pre>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
